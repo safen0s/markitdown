@@ -325,6 +325,28 @@ def test_speech_transcription() -> None:
         )
 
 
+@pytest.mark.skipif(
+    skip_remote,
+    reason="do not run remotely run speech transcription tests",
+)
+def test_uppercase_extension_transcription() -> None:
+    """Ensure uppercase audio extensions are recognized."""
+    markitdown = MarkItDown()
+
+    result = markitdown.convert(
+        os.path.join(TEST_FILES_DIR, "test.wav"),
+        file_extension=".WAV",
+    )
+    result_lower = result.text_content.lower()
+    assert (
+        ("1" in result_lower or "one" in result_lower)
+        and ("2" in result_lower or "two" in result_lower)
+        and ("3" in result_lower or "three" in result_lower)
+        and ("4" in result_lower or "four" in result_lower)
+        and ("5" in result_lower or "five" in result_lower)
+    )
+
+
 def test_exceptions() -> None:
     # Check that an exception is raised when trying to convert an unsupported format
     markitdown = MarkItDown()
