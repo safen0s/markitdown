@@ -47,6 +47,9 @@ def parse_data_uri(uri: str) -> Tuple[str | None, Dict[str, str], bytes]:
         elif len(part) > 0:
             attributes[part] = ""
 
-    content = base64.b64decode(data) if is_base64 else unquote_to_bytes(data)
+    # The data portion of a data URI may itself be percent encoded. Always
+    # decode any percent escapes before optionally base64 decoding the result.
+    data_bytes = unquote_to_bytes(data)
+    content = base64.b64decode(data_bytes) if is_base64 else data_bytes
 
     return mime_type, attributes, content
