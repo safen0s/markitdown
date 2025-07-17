@@ -107,7 +107,6 @@ def test_input_from_stdin_without_hints(shared_tmp_dir, test_vector) -> None:
             "python",
             "-m",
             "markitdown",
-            os.path.join(TEST_FILES_DIR, test_vector.filename),
         ],
         input=test_input,
         capture_output=True,
