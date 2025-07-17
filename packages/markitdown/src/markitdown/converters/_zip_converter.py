@@ -101,9 +101,14 @@ class ZipConverter(DocumentConverter):
                         extension=os.path.splitext(name)[1],
                         filename=os.path.basename(name),
                     )
+                    nested_kwargs = {}
+                    if "keep_data_uris" in kwargs:
+                        nested_kwargs["keep_data_uris"] = kwargs["keep_data_uris"]
+
                     result = self._markitdown.convert_stream(
                         stream=z_file_stream,
                         stream_info=z_file_stream_info,
+                        **nested_kwargs,
                     )
                     if result is not None:
                         md_content += f"## File: {name}\n\n"
