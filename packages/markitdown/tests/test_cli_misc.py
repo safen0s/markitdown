@@ -12,7 +12,9 @@ def test_version() -> None:
     )
 
     assert result.returncode == 0, f"CLI exited with error: {result.stderr}"
-    assert __version__ in result.stdout, f"Version not found in output: {result.stdout}"
+    assert (
+        result.stdout.strip() == f"markitdown {__version__}"
+    ), f"Unexpected version output: {result.stdout}"
 
 
 def test_invalid_flag() -> None:
