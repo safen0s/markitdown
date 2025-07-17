@@ -75,15 +75,16 @@ class AudioConverter(DocumentConverter):
                 if f in metadata:
                     md_content += f"{f}: {metadata[f]}\n"
 
+        # Normalize case for reliable extension and MIME type comparisons
+        extension = (stream_info.extension or "").lower()
+        mimetype = (stream_info.mimetype or "").lower()
+
         # Figure out the audio format for transcription
-        if stream_info.extension == ".wav" or stream_info.mimetype == "audio/x-wav":
+        if extension == ".wav" or mimetype == "audio/x-wav":
             audio_format = "wav"
-        elif stream_info.extension == ".mp3" or stream_info.mimetype == "audio/mpeg":
+        elif extension == ".mp3" or mimetype == "audio/mpeg":
             audio_format = "mp3"
-        elif (
-            stream_info.extension in [".mp4", ".m4a"]
-            or stream_info.mimetype == "video/mp4"
-        ):
+        elif extension in [".mp4", ".m4a"] or mimetype == "video/mp4":
             audio_format = "mp4"
         else:
             audio_format = None
