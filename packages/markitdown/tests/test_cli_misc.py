@@ -27,8 +27,20 @@ def test_invalid_flag() -> None:
     assert "SYNTAX" in result.stderr, "Expected 'SYNTAX' to appear in STDERR"
 
 
+def test_help() -> None:
+    result = subprocess.run(
+        ["python", "-m", "markitdown", "--help"], capture_output=True, text=True
+    )
+
+    assert result.returncode == 0, f"CLI exited with error: {result.stderr}"
+    assert (
+        "SYNTAX" in result.stdout or "usage" in result.stdout
+    ), "Expected 'SYNTAX' or 'usage' to appear in STDOUT"
+
+
 if __name__ == "__main__":
     """Runs this file's tests from the command line."""
     test_version()
     test_invalid_flag()
+    test_help()
     print("All tests passed!")
